@@ -79,7 +79,7 @@ Welcome to your **LoRa Receiver** project! This Arduino sketch enables interacti
 
 Below is an example of measured distance using this LoRa setup:
 
-![Measured Distance](https://github.com/Ntarekp/LoRa-IoT-RangeTest/raw/main/Distance_Image/Distance%20measured.png)
+![Measured Distance](https://github.com/Ntarekp/LoRa-IoT-RangeTest/blob/main/Distance_Image/measuredDistance.png).
 
 
 
