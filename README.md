@@ -3,12 +3,14 @@
 Welcome to your **LoRa Receiver** project! This Arduino sketch enables interactive serial chat via LoRa using the **RFM95 module** and the **RadioHead RH_RF95** driver library.
 
 
+
 ## 🌟 Features
 
 - **Real-Time LoRa Reception:** Listens for LoRa messages on the 915 MHz ISM band.
 - **Serial Monitor Chat:** Display incoming messages & RSSI; send replies from your computer.
 - **Plug & Play:** Designed for easy setup with Adafruit Feather32u4, ATmega32u4, and other Arduino-compatible boards.
 - **Reliable Communication:** Leveraging the proven [RadioHead Library](https://www.airspayce.com/mikem/arduino/RadioHead/).
+
 
 
 ## 🛠️ Hardware Required
@@ -19,8 +21,7 @@ Welcome to your **LoRa Receiver** project! This Arduino sketch enables interacti
 
 
 
-
-##  Arduino IDE Setup
+## ⚙️ Arduino IDE Setup
 
 ### 1️⃣ Add Board Manager URL
 
@@ -43,6 +44,7 @@ Welcome to your **LoRa Receiver** project! This Arduino sketch enables interacti
   [RadioHead-1.125.zip](https://www.airspayce.com/mikem/arduino/RadioHead/RadioHead-1.125.zip)
 - In Arduino IDE, go to **Sketch → Include Library → Add .ZIP Library...**
 - Select the downloaded ZIP file.
+
 
 
 ## 📦 Dependencies
@@ -74,15 +76,6 @@ Welcome to your **LoRa Receiver** project! This Arduino sketch enables interacti
 5. **Type** into the serial monitor and press Enter to send a message via LoRa.
 
 
-
-## 📏 Measured Distance Example
-
-Below is an example of measured distance using this LoRa setup:
-
-![Measured Distance](https://github.com/Ntarekp/LoRa-IoT-RangeTest/raw/main/Distance_Image/Distance%20measured.png)
-
-
-
 ## 🧪 Example Output
 
 ```
@@ -93,9 +86,16 @@ Sent: Hello from RX
 ```
 
 
+## 📷 Distance Measurement Example
+
+![Distance Measurement](https://github.com/Ntarekp/LoRa-IoT-RangeTest/blob/main/Distance_Image/measuredDistance.png)
+
+
+
 ## 📝 License
 
 MIT License
+
 
 
 ## 💡 Tips
@@ -104,6 +104,3 @@ MIT License
 - Use identical frequency settings on all communicating LoRa nodes.
 - For troubleshooting, check wiring and ensure driver libraries are properly installed.
 
-
-**Happy experimenting with LoRa!**  
-📡🛰️🌱
