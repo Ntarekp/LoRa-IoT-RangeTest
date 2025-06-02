@@ -1,45 +1,45 @@
-#include <SPI.h>           // Include the SPI library for communication with LoRa module
-#include <RH_RF95.h>       // Include the RadioHead library for the RF95 LoRa module
+#include <SPI.h>           // SPI library used for communication with the LoRa module
+#include <RH_RF95.h>       // RadioHead library specific to the RF95 LoRa transceiver
 
-// Pin definitions for the LoRa module
-#define RFM95_CS 8         // Chip select pin
-#define RFM95_RST 4        // Reset pin
-#define RFM95_INT 7        // Interrupt pin
+// Define wiring pins connected to the LoRa module
+#define RFM95_CS 8         // Chip Select pin (NSS)
+#define RFM95_RST 4        // Reset pin (RST)
+#define RFM95_INT 7        // Interrupt pin (DIO0)
 
-// LoRa frequency in MHz (915 for North America, 868 for Europe, etc.)
-#define RF95_FREQ 915.0    // Explicitly define as float for precision
+// Set the LoRa operating frequency in MHz
+#define RF95_FREQ 915.0    // 915 MHz for North America (make sure both sender and receiver use the same frequency)
 
-// Create a singleton instance of the RH_RF95 driver with chip select and interrupt pins
+// Create an instance of the RF95 driver with CS and interrupt pins
 RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
-// Maximum message length for safety
+// Define maximum allowed message length for transmission
 #define MAX_MESSAGE_LEN 100
 
 void setup() {
-  // Configure reset pin as output and set it high
+  // Set the reset pin as output and initialize it to HIGH (not in reset state)
   pinMode(RFM95_RST, OUTPUT);
   digitalWrite(RFM95_RST, HIGH);
 
-  // Start the Serial monitor at 115200 baud with timeout
+  // Begin Serial communication at 115200 baud
   Serial.begin(115200);
-  Serial.setTimeout(100); // Set timeout for Serial.readStringUntil
+  Serial.setTimeout(100); // Set a timeout for reading input from Serial
 
-  // Wait for Serial monitor to open, with timeout
+  // Wait briefly for the Serial Monitor to open (max 1 second)
   unsigned long startTime = millis();
   while (!Serial && millis() - startTime < 1000) {
-    delay(1); // Wait up to 1 second for Serial
+    delay(1);
   }
 
-  delay(100);  // Short delay for stabilization
+  delay(100);  // Short delay to ensure Serial is stable
   Serial.println("LoRa Chat Initialized!");
 
-  // Manually reset the LoRa module
+  // Perform a manual hardware reset on the LoRa module
   digitalWrite(RFM95_RST, LOW);
   delay(10);
   digitalWrite(RFM95_RST, HIGH);
   delay(10);
 
-  // Initialize the LoRa radio with retry mechanism
+  // Try to initialize the LoRa module with up to 3 retries
   int retries = 3;
   bool initSuccess = false;
   while (retries > 0 && !initSuccess) {
@@ -53,40 +53,41 @@ void setup() {
     }
   }
 
+  // Stop execution if initialization failed
   if (!initSuccess) {
     Serial.println("LoRa radio init failed after retries");
-    while (1); // Halt if initialization fails
+    while (1);
   }
 
-  // Set the desired frequency
+  // Set the desired frequency for LoRa communication
   if (!rf95.setFrequency(RF95_FREQ)) {
     Serial.println("setFrequency failed");
-    while (1); // Halt if frequency setting fails
+    while (1); // Halt if frequency cannot be set
   }
   Serial.print("Set Freq to: ");
-  Serial.print(RF95_FREQ, 1); // Print with 1 decimal place
+  Serial.print(RF95_FREQ, 1); // Display frequency with 1 decimal
   Serial.println(" MHz");
 
-  // Set transmit power (max 23 dBm for most modules)
+  // Set transmission power to 23 dBm (maximum for most modules)
   rf95.setTxPower(23, false);
 
-  // Configure LoRa parameters for better performance
+  // Configure LoRa radio parameters for performance tuning
   rf95.setSignalBandwidth(125000);  // 125 kHz bandwidth
-  rf95.setCodingRate4(5);          // Coding rate 4/5
-  rf95.setSpreadingFactor(7);       // SF7 for better range vs. speed
+  rf95.setCodingRate4(5);           // Forward error correction coding rate 4/5
+  rf95.setSpreadingFactor(7);       // Spreading Factor 7 balances speed and range
 }
 
 void loop() {
-  // Check if a LoRa message is available to read
+  // Check if a LoRa message has been received
   if (rf95.available()) {
-    uint8_t buf[RH_RF95_MAX_MESSAGE_LEN]; // Buffer for incoming message
-    uint8_t len = sizeof(buf);            // Length of the message
+    uint8_t buf[RH_RF95_MAX_MESSAGE_LEN]; // Buffer to store incoming message
+    uint8_t len = sizeof(buf);            // Length of received message
 
     if (rf95.recv(buf, &len)) {
       if (len > MAX_MESSAGE_LEN) {
-        len = MAX_MESSAGE_LEN; // Prevent buffer overflow
+        len = MAX_MESSAGE_LEN; // Clamp message to max length to prevent overflow
       }
-      buf[len] = '\0'; // Null-terminate the message
+      buf[len] = '\0'; // Null-terminate the message for printing
       Serial.print("Received: ");
       Serial.println((char *)buf);
       Serial.print("RSSI: ");
@@ -98,18 +99,18 @@ void loop() {
     }
   }
 
-  // Check for user input with buffer overflow protection
+  // Check if user entered a message via Serial
   if (Serial.available()) {
     String input = Serial.readStringUntil('\n');
-    input.trim();
+    input.trim(); // Remove leading/trailing whitespace
 
     if (input.length() > 0 && input.length() <= MAX_MESSAGE_LEN) {
       Serial.print("Sent: ");
       Serial.println(input);
 
-      // Send the input message via LoRa
+      // Send the input string as a LoRa packet
       if (rf95.send((uint8_t *)input.c_str(), input.length())) {
-        rf95.waitPacketSent();
+        rf95.waitPacketSent(); // Wait until the packet is fully transmitted
         Serial.println("Message sent successfully!");
       } else {
         Serial.println("Failed to send message");
@@ -120,6 +121,6 @@ void loop() {
     }
   }
 
-  // Small delay to prevent excessive CPU usage
+  // Brief delay to avoid maxing out the processor
   delay(10);
 }
