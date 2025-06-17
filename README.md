@@ -3,8 +3,12 @@
 Welcome to your **LoRa Receiver** project! This Arduino sketch enables interactive serial chat via LoRa using the **RFM95 module** and the **RadioHead RH_RF95** driver library.
 
 
+<<<<<<< HEAD
 
+## 🌟 Features
+=======
 ## Features
+>>>>>>> origin/main
 
 - **Real-Time LoRa Reception:** Listens for LoRa messages on the 915 MHz ISM band.
 - **Serial Monitor Chat:** Display incoming messages & RSSI; send replies from your computer.
@@ -12,8 +16,12 @@ Welcome to your **LoRa Receiver** project! This Arduino sketch enables interacti
 - **Reliable Communication:** Leveraging the proven [RadioHead Library](https://www.airspayce.com/mikem/arduino/RadioHead/).
 
 
+<<<<<<< HEAD
 
+## 🛠️ Hardware Required
+=======
 ##  Hardware Required
+>>>>>>> origin/main
 
 - **Arduino-compatible board:** (e.g., Adafruit Feather32u4, ATmega32u4)
 - **RFM95 LoRa module**
@@ -47,8 +55,12 @@ Welcome to your **LoRa Receiver** project! This Arduino sketch enables interacti
 - Select the downloaded ZIP file.
 
 
+<<<<<<< HEAD
 
+## 📦 Dependencies
+=======
 ## Dependencies
+>>>>>>> origin/main
 
 - [RadioHead Library](https://www.airspayce.com/mikem/arduino/RadioHead/)
 - Adafruit Feather / ATmega board support
@@ -77,16 +89,20 @@ Welcome to your **LoRa Receiver** project! This Arduino sketch enables interacti
 5. **Type** into the serial monitor and press Enter to send a message via LoRa.
 
 
+<<<<<<< HEAD
+## 🧪 Example Output
+=======
 
-## 📏 Measured Distance Example
+## Measured Distance Example
 
 Below is an example of measured distance using this LoRa setup:
 
-![Measured Distance](https://github.com/Ntarekp/LoRa-IoT-RangeTest/raw/main/Distance_Image/Distance%20measured.png)
+![Measured Distance](https://github.com/Ntarekp/LoRa-IoT-RangeTest/blob/main/Distance_Image/measuredDistance.png).
 
 
 
 ## Example Output
+>>>>>>> origin/main
 
 ```
 LoRa radio init OK!
@@ -102,18 +118,20 @@ Sent: Hello from RX.
 
 
 
-## License
+## 📝 License
 
 MIT License
 
 
 
-## Tips
+## 💡 Tips
 
 - Make sure your antenna is connected before powering up!
 - Use identical frequency settings on all communicating LoRa nodes.
 - For troubleshooting, check wiring and ensure driver libraries are properly installed.
 
+<<<<<<< HEAD
+=======
 
-**Happy experimenting with LoRa!**  
-📡🛰️🌱
+**Happy experimenting with LoRa!**
+>>>>>>> origin/main
